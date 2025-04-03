@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Retrain ATS Match Model</title>
+  <link rel="stylesheet" href="styles/index.css">
+  <link rel="stylesheet" href="styles/retrain.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="header">
+    <div class="logo">
+      <a href="index.html"><img src="images/ats-Logo.png" alt="ATS Match Logo"></a>
+    </div>
+    
+    <div class="contribute-source">
+      <a href="retrain.html"><button class="contri-btn">Contribute</button></a>
+      <div class="src-button">
+        <img width="32" height="32" src="https://img.icons8.com/windows/32/github.png" alt="github"/>
+        <a href="https://github.com/julianacholder/ATS-Match-ML-Powered-Resume-Job-Matching-System"><p>Source Code</p></a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="sub-header">
+    <div class="sub1">
+      <a href="index.html">Home</a>
+      <a href="">Learn more</a>
+      <a href="index.html#visualizations-container">Visuals</a>
+      <a href="retrain.html">Support</a>
+    </div>
+    
+    <div class="sub2">
+      <a href="">Contact</a>
+    </div>
+  </div>
+  
+  <div class="main-content">
+    <div class="content1">
+      <h1>Contribute Data to <span>Retrain</span> the AI Model</h1>
+      <p>Upload new data to help us improve model accuracy and performance</p>
+    </div>
+  </div>
+    <div class="inline">
+      <div class="current-performance">
+        <h3>Current Model Status</h3>
+        <p>Status: <span id="model-status" class="status-ready">Ready</span></p>
+        <p>Last Retrained: <span id="last-retrained">Loading...</span></p>
+        <p>Performance: <span id="performance">Loading...</span></p>
+        <p>Training Data Size: <span id="data-size">Loading...</span></p>
+        <p>Loss: <span id="loss">-</span></p>
+        <p>Recall: <span id="recall">-</span></p>
+      </div>
+      
+      <div class="resume-job">
+        <div class="upload-resume">
+          <div class="download">
+            <h3>Upload Training Data</h3>
+            <button id="download-sample">Download sample CSV</button>
+          </div>
+          
+          <div class="resume-dotted">
+            <div><img src="images/icons8-upload-60.png" alt="Upload"></div>
+            <h3>Click or Drop CSV file here to Upload</h3>
+            <p>Choose csv file up to 50mb</p>
+          </div>
+          
+          <div class="retrain-btn" id="retrain-button">
+            <p>Start Retraining</p>
+          </div>
+        </div>
+      </div>
+      <div class="step-container">
+        <h2>Retrain Process</h2>
+        <div class="stepss">
+          <div class="step active">
+            <div class="circle">1</div>
+            <p><strong>Upload Data</strong></p>
+          </div>
+          <div class="line"></div>
+          <div class="step">
+            <div class="circle">2</div>
+            <p>Preprocessing</p>
+          </div>
+          <div class="line"></div>
+          <div class="step">
+            <div class="circle">3</div>
+            <p>Model Retraining</p>
+          </div>
+          <div class="line"></div>
+          <div class="step">
+            <div class="circle">4</div>
+            <p>Evaluation</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="required current-performance">
+        <h3>Required Data Format</h3>
+        <ul class="required-list">
+          <li><strong>career_objective</strong> - Resume objective statement</li>
+          <li><strong>skills</strong> - Comma-separated list of skills</li>
+          <li><strong>degree_names</strong> - Education information</li>
+          <li><strong>positions</strong> - Past job positions</li>
+          <li><strong>job_position_name</strong> - Job title</li>
+          <li><strong>job_description</strong> - Full job description text</li>
+          <li><strong>match</strong> - Target value (1 for relevant, 0 for not relevant)</li>
+        </ul>
+      </div>
+    </div>
+    
+   
+ 
+  
+  <!-- Loading Modal -->
+  <div id="loading-modal" class="modally">
+    <div class="modal-content">
+      <div class="loader"></div>
+      <h3>Retraining in Progress</h3>
+      <p>Please wait while the model is being retrained...</p>
+      <p id="training-progress">Status: Starting</p>
+    </div>
+  </div>
+  
+  <footer class="footer">
+   
+    <div class="copyright">
+      <p>&copy; 2025 ATS-Match. All rights reserved.</p>
+    </div>
+    <div class="footer-bottom-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Cookies Policy</a>
+    </div>
+
+
+</footer>
+
+  <script src="js/retrain.js"></script>
+</body>
+</html>

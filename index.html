@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="styles/index.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="header">
+    <div class="logo">
+     <a href="index.html"> <img src="images/ats-Logo.png" alt="">
+     </div></a>
+    
+    <div class="contribute-source">
+     <a href="retrain.html"><button class="contri-btn">Contribute</button></a>
+      <div class="src-button">
+        <img width="32" height="32" src="https://img.icons8.com/windows/32/github.png" alt="github"/>
+        <a href="https://github.com/julianacholder/ATS-Match-ML-Powered-Resume-Job-Matching-System"><p>Source Code</p></a>
+      </div>
+     
+    </div>
+  </div>
+  <div class="sub-header">
+    <div class="sub1">
+      <a href="index.html">Home</a>
+      <a href="">Learn more</a>
+      <a href="#visualizations-container">Visuals</a>
+      <a href="retrain.html">Support</a>
+    </div>
+
+    <div class="sub2">
+      <a href="">Contact</a>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="content1">
+      <h1>Match Made in Job <span>Heaven</span> –  Resume <br>vs Job, AI Decides.</h1>
+      <p>Upload your resume and a job description. Our AI shows how well you match, highlights key keywords, <br> and points out missing skills – instantly and for free.</p>
+    </div>
+     <a href="#resume-job">
+    <div class="content2">
+     <p>Get Started</p>
+     <img src="images/icons8-arrow-24.png" alt="">
+    </div>
+  </a>
+    <div class="step-container">
+      <h2>How it Works</h2>
+      <div class="steps">
+        <div class="step active">
+          <div class="circle">1</div>
+          <p><strong>Upload Resume</strong></p>
+        </div>
+        <div class="line"></div>
+        <div class="step">
+          <div class="circle">2</div>
+          <p>ATS Scan</p>
+        </div>
+        <div class="line"></div>
+        <div class="step">
+          <div class="circle">3</div>
+          <p>View Results</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="resume-job" id="resume-job">
+      <div class="upload-resume">
+        <div class="heading">
+          <p>1</p>
+          <h2>Upload Resume</h2>
+        </div>
+        <div class="resume-dotted">
+          <div><img src="images/icons8-profile-50.png" alt=""></div>
+          
+          <h3>Click or Drop file here to Upload your Resume/Cv</h3>
+          <p>Choose doc a docx or pdf file up to 5mb</p>
+          
+          <!-- Add a hidden file input -->
+          <input type="file" id="resume-file" accept=".pdf,.doc,.docx" style="display: none;">
+          
+          <div class="upload-btn" id="upload-resume-btn">
+            <img src="images/upload-20.png" alt="">
+            <p>Upload Resume</p>
+          </div>
+          
+          <!-- Add a display for the selected file name -->
+          <p id="selected-file-name" class="selected-file"></p>
+        </div>
+      </div>
+
+      <div class="job-descrip">
+        <div class="heading">
+          <p>2</p>
+          <h2>Add Job Description</h2>
+        </div>
+        <div class="copy-job">
+          <div class="important">
+            <img width="16" height="16" src="https://img.icons8.com/windows/32/high-importance.png" alt="high-importance"/>
+          </div>
+          <p>Copy-paste the job description you're applying for into the textbox below, or generate a sample job <br>
+          description
+          </p>
+        </div>
+        <textarea name="" id="" placeholder="Copy and paste the job description here"></textarea>
+      </div>
+      <button class="result-btn disabled" id="result-btn" disabled>Get Result</button>
+    </div>
+
+    <!-- Result Modal -->
+<div id="result-modal" class="modal hidden">
+  <div class="modal-content">
+    <span class="close-button" onclick="closeModal()">&times;</span>
+    
+    <div class="modal-header">
+      <h2>Match Results</h2>
+    </div>
+    
+    <div class="modal-body">
+      <div class="result-summary">
+        <div class="prediction-container">
+          <h3>Match Status</h3>
+          <p id="prediction-label" class="prediction-label"></p>
+        </div>
+        
+        <div class="confidence-meter">
+          <h3>Match Confidence</h3>
+          <div class="meter-container">
+            <div class="meter-bar">
+              <div id="confidence-bar" class="meter-fill"></div>
+            </div>
+            <div class="meter-value"><span id="match-confidence"></span>%</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="skills-container">
+        <div class="matching-skills">
+          <h3>Matching Skills</h3>
+          <div class="skills-tags">
+            <p id="matching-skills"></p>
+          </div>
+        </div>
+        
+        <div class="missing-skills" id="missing-skills-container">
+          <h3>Missing Skills <span class="skills-limit">(Top 6)</span></h3>
+          <div class="skills-tags">
+            <p id="missing-skills"></p>
+            <button id="show-more-skills" class="show-more">Show All</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="modal-footer">
+      <button id="download-report" class="action-button">Download Report</button>
+      <button id="close-modal" class="action-button secondary" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+    
+    <section class="visualizations-container" id="visualizations-container">
+      <h2 class="section-title">Model Insights & Visualizations</h2>
+      
+      <div class="visualization-cards">
+        <!-- Visualization 1: Feature Importance -->
+        <div class="viz-card" onclick="toggleExpand(this)">
+          <h3>Key Features in Resume-Job Matching</h3>
+          <div class="viz-image">
+            <img src="images/skill_distribution.png" alt="Feature Importance Visualization">
+          </div>
+          <div class="viz-description">
+            <p class="short-description">This analysis demonstrates the correlation between skill matching and job relevance...</p>
+            <p class="full-description">This analysis demonstrates the correlation between skill matching and job relevance. The left chart shows most resumes have either very low (0-20%) or very high (80-100%) skill matches with job descriptions, with few in the middle range. The right chart confirms that relevant matches have significantly higher skill match percentages. This insight suggests that focusing on precisely matching your resume skills to job requirements can dramatically improve your chances of being classified as relevant.</p>
+          </div>
+          <div class="expand-icon">+</div>
+        </div>
+        
+        <!-- Visualization 2: Skill Match Analysis -->
+        <div class="viz-card" onclick="toggleExpand(this)">
+          <h3>Skill Match Distribution</h3>
+          <div class="viz-image">
+            <img src="images/match_distribution.png" alt="Skill Match Distribution">
+          </div>
+          <div class="viz-description">
+            <p class="short-description">This visualization reveals how experience requirements affect resume-job match outcomes...</p>
+            <p class="full-description">This visualization reveals how experience requirements affect resume-job match outcomes. Senior-level positions show the highest number of non-relevant matches, suggesting greater specialization and selectivity. Entry-level positions demonstrate a nearly even distribution between relevant and non-relevant matches, indicating more balanced opportunities for new professionals. Understanding these patterns helps job seekers target positions where their experience level has the highest probability of success.</p>
+          </div>
+          <div class="expand-icon">+</div>
+        </div>
+        
+        <!-- Visualization 3: Experience Level Impact -->
+        <div class="viz-card" onclick="toggleExpand(this)">
+          <h3>Experience Level Impact on Job Matching</h3>
+          <div class="viz-image">
+            <img src="images/top_tfidf.png" alt="Experience Level Impact">
+          </div>
+          <div class="viz-description">
+            <p class="short-description">This visualization identifies the most influential terms in determining match relevance...</p>
+            <p class="full-description">This visualization identifies the most influential terms in determining match relevance. Terms like "management," "data," and "development" appear prominently in both relevant and non-relevant matches, but with different weightings. The prominence of "database" and "collaboration" in relevant matches suggests employers value these specific skills. By emphasizing these high-value terms in your resume when they align with your experience, you can increase your chances of being identified as a relevant candidate.</p>
+          </div>
+          <div class="expand-icon">+</div>
+        </div>
+      </div>
+      
+      <!-- Model Performance Metrics -->
+      <div class="metrics-container">
+        <h3>Model Performance Metrics</h3>
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-value">82%</div>
+            <div class="metric-label">Accuracy</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">79%</div>
+            <div class="metric-label">Precision</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">83%</div>
+            <div class="metric-label">Recall</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value">81%</div>
+            <div class="metric-label">F1 Score</div>
+          </div>
+        </div>
+        <div class="confusion-matrix">
+          <h4>Confusion Matrix</h4>
+          <img src="images/confusion_matrix.png" alt="Confusion Matrix">
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Footer -->
+<footer class="footer">
+   
+      <div class="copyright">
+        <p>&copy; 2025 ATS-Match. All rights reserved.</p>
+      </div>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Cookies Policy</a>
+      </div>
+  
+ 
+</footer>
+</body>
+
+<script src="js/index.js"></script>
+</html>
