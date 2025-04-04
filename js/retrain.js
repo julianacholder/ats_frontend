@@ -1,12 +1,10 @@
 // Constants
-const API_BASE_URL = 'http://127.0.0.1:8000';
+const API_BASE_URL = 'https://ats-match-ml-powered-resume-job-production.up.railway.app';
 const RETRAIN_STATUS_INTERVAL = 5000; // Check status every 5 seconds
 
-// DOM Elements
+// Main function when DOM loads
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('DOM loaded, initializing elements');
-  
-  // Get elements by ID for more reliable selection
+  // DOM Elements
   const fileDropArea = document.querySelector('.resume-dotted');
   const uploadLabel = fileDropArea.querySelector('h3');
   const uploadDesc = fileDropArea.querySelector('p');
@@ -15,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const loadingModal = document.getElementById('loading-modal');
   const trainingProgress = document.getElementById('training-progress');
   
-  // Status elements with IDs
+  // Status display elements
   const modelStatusSpan = document.getElementById('model-status');
   const lastRetrainedSpan = document.getElementById('last-retrained');
   const performanceSpan = document.getElementById('performance');
@@ -25,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   const stepsElements = document.querySelectorAll('.stepss .step');
   
-  // Add a hidden file input for CSV
+  // Create hidden file input
   const fileInput = document.createElement('input');
   fileInput.type = 'file';
   fileInput.accept = '.csv';
@@ -33,26 +31,20 @@ document.addEventListener('DOMContentLoaded', function() {
   fileInput.id = 'csv-file';
   document.body.appendChild(fileInput);
   
+  // State variables
   let selectedFile = null;
   let isRetraining = false;
 
-  // Fetch initial model status
-  fetchModelStatus();
-  
+  // Initialize button state
+  retrainButton.disabled = true;
+
   // Event Listeners
   fileDropArea.addEventListener('click', () => fileInput.click());
   
-  // File selection event
   fileInput.addEventListener('change', function(e) {
-    if (this.files.length > 0) {
-      selectedFile = this.files[0];
-      uploadLabel.textContent = selectedFile.name;
-      uploadDesc.textContent = `${formatFileSize(selectedFile.size)} - Click to change`;
-      fileDropArea.classList.add('file-selected');
-    }
+    handleFileSelection(this.files);
   });
   
-  // Drag and drop events
   fileDropArea.addEventListener('dragover', function(e) {
     e.preventDefault();
     fileDropArea.classList.add('dragover');
@@ -65,22 +57,9 @@ document.addEventListener('DOMContentLoaded', function() {
   fileDropArea.addEventListener('drop', function(e) {
     e.preventDefault();
     fileDropArea.classList.remove('dragover');
-    
-    if (e.dataTransfer.files.length > 0) {
-      selectedFile = e.dataTransfer.files[0];
-      
-      if (!selectedFile.name.endsWith('.csv')) {
-        showToast('Only CSV files are allowed', 'error');
-        return;
-      }
-      
-      uploadLabel.textContent = selectedFile.name;
-      uploadDesc.textContent = `${formatFileSize(selectedFile.size)} - Drag new file to change`;
-      fileDropArea.classList.add('file-selected');
-    }
+    handleFileSelection(e.dataTransfer.files);
   });
   
-  // Retrain button click
   retrainButton.addEventListener('click', function() {
     if (isRetraining) {
       showToast('Retraining is already in progress', 'info');
@@ -90,88 +69,82 @@ document.addEventListener('DOMContentLoaded', function() {
     if (selectedFile) {
       uploadCSVAndRetrain(selectedFile);
     } else {
-      // If no file is selected, just trigger retraining with existing data
       triggerRetrain();
     }
   });
   
-  // Download sample CSV
-  downloadSampleButton.addEventListener('click', function() {
-    downloadSampleCSV();
-  });
+  downloadSampleButton.addEventListener('click', downloadSampleCSV);
   
-  // Functions
+  // Initialize page
+  fetchModelStatus();
+
+  // =====================
+  // Core Functions
+  // =====================
+
+  function handleFileSelection(files) {
+    if (files.length > 0) {
+      selectedFile = files[0];
+      
+      if (!selectedFile.name.endsWith('.csv')) {
+        showToast('Only CSV files are allowed', 'error');
+        retrainButton.disabled = true;
+        retrainButton.classList.remove('file-selected'); // Remove orange class
+        return;
+      }
+      
+      // Update UI
+      uploadLabel.textContent = selectedFile.name;
+      uploadDesc.textContent = `${formatFileSize(selectedFile.size)} - Click to change`;
+      fileDropArea.classList.add('file-selected');
+      
+      // Enable and style the button
+      retrainButton.disabled = false;
+      retrainButton.classList.add('file-selected'); // Add orange class
+    } else {
+      retrainButton.disabled = true;
+      retrainButton.classList.remove('file-selected'); // Remove orange class
+    }
+  }
+
   function fetchModelStatus() {
-    console.log('Fetching model status...');
     fetch(`${API_BASE_URL}/api/retrain_status`)
       .then(response => response.json())
       .then(data => {
-        console.log('Retrain status data:', data);
         isRetraining = data.retraining;
         
         if (isRetraining) {
+          // Update UI for retraining state
           modelStatusSpan.textContent = 'Retraining';
           modelStatusSpan.className = 'status-retraining';
-          retrainButton.classList.add('disabled');
+          retrainButton.disabled = true;
           loadingModal.style.display = 'block';
           
           // Update progress message
           if (data.stage) {
             trainingProgress.textContent = `Status: ${data.stage}`;
+            updateTrainingSteps(
+              data.stage === 'preprocessing' ? 2 :
+              data.stage === 'training' ? 3 :
+              data.stage === 'evaluation' ? 4 : 1
+            );
           }
           
-          // Update training steps based on stage
-          if (data.stage === 'preprocessing') {
-            updateTrainingSteps(2);
-          } else if (data.stage === 'training') {
-            updateTrainingSteps(3);
-          } else if (data.stage === 'evaluation') {
-            updateTrainingSteps(4);
-          }
-          
-          // Check again after interval
+          // Continue polling
           setTimeout(fetchModelStatus, RETRAIN_STATUS_INTERVAL);
         } else {
+          // If we were previously retraining but now we're not, update the UI
           modelStatusSpan.textContent = 'Ready';
           modelStatusSpan.className = 'status-ready';
-          retrainButton.classList.remove('disabled');
           loadingModal.style.display = 'none';
-          updateTrainingSteps(1); // Reset to upload step
+          retrainButton.disabled = selectedFile ? false : true; // Re-enable button if file is selected
+          if (selectedFile) {
+            retrainButton.classList.add('file-selected');
+          }
+          updateTrainingSteps(1);
           
-          // Also fetch status endpoint for additional info
-          fetch(`${API_BASE_URL}/status`)
-            .then(response => response.json())
-            .then(statusData => {
-              console.log('Status data:', statusData);
-              if (statusData.status === 'ready') {
-                // Update all status fields
-                if (statusData.last_retrained) {
-                  lastRetrainedSpan.textContent = formatDate(statusData.last_retrained);
-                }
-                
-                if (statusData.performance) {
-                  performanceSpan.textContent = statusData.performance;
-                }
-                
-                if (statusData.data_size) {
-                  dataSizeSpan.textContent = statusData.data_size;
-                }
-                
-                // Update loss and recall if available
-                if (statusData.metrics) {
-                  if (statusData.metrics.loss) {
-                    lossSpan.textContent = statusData.metrics.loss.toFixed(4);
-                  }
-                  if (statusData.metrics.recall) {
-                    recallSpan.textContent = statusData.metrics.recall.toFixed(4);
-                  }
-                }
-              }
-            })
-            .catch(error => {
-              console.error('Status fetch error:', error);
-              showToast('Error connecting to API', 'error');
-            });
+          // Fetch the latest model status
+          fetchModelDetails();
         }
       })
       .catch(error => {
@@ -182,7 +155,68 @@ document.addEventListener('DOMContentLoaded', function() {
         showToast('Error connecting to API. Is your FastAPI server running?', 'error');
       });
   }
-  
+
+  // Create a separate function for fetching model details
+  function fetchModelDetails() {
+    fetch(`${API_BASE_URL}/status`)
+      .then(response => response.json())
+      .then(statusData => {
+        console.log('Status data:', statusData);
+        if (statusData.status === 'ready') {
+          if (statusData.last_retrained) {
+            lastRetrainedSpan.textContent = formatDate(statusData.last_retrained);
+          }
+          
+          if (statusData.performance) {
+            performanceSpan.textContent = statusData.performance;
+          }
+          
+          if (statusData.data_size) {
+            dataSizeSpan.textContent = statusData.data_size;
+          }
+          
+          // Enhanced metrics handling with debug output
+          console.log('Metrics data:', statusData.metrics);
+          
+          if (statusData.metrics) {
+            // Check if lossSpan and recallSpan exist in the DOM
+            if (lossSpan) {
+              if (statusData.metrics.loss !== undefined) {
+                console.log('Setting loss value:', statusData.metrics.loss);
+                lossSpan.textContent = statusData.metrics.loss.toFixed(4);
+              } else {
+                console.log('Loss value is undefined');
+                lossSpan.textContent = 'N/A';
+              }
+            } else {
+              console.error('Element with ID "loss" not found in the DOM');
+            }
+            
+            if (recallSpan) {
+              if (statusData.metrics.recall !== undefined) {
+                console.log('Setting recall value:', statusData.metrics.recall);
+                recallSpan.textContent = statusData.metrics.recall.toFixed(4);
+              } else {
+                console.log('Recall value is undefined');
+                recallSpan.textContent = 'N/A';
+              }
+            } else {
+              console.error('Element with ID "recall" not found in the DOM');
+            }
+          } else {
+            console.log('No metrics data available in API response');
+            // Set default values when metrics are missing
+            if (lossSpan) lossSpan.textContent = 'N/A';
+            if (recallSpan) recallSpan.textContent = 'N/A';
+          }
+        }
+      })
+      .catch(error => {
+        console.error('Status fetch error:', error);
+        showToast('Error connecting to API', 'error');
+      });
+  }
+
   function uploadCSVAndRetrain(file) {
     const formData = new FormData();
     formData.append('file', file);
@@ -209,7 +243,7 @@ document.addEventListener('DOMContentLoaded', function() {
         showToast('Error uploading file. Please try again.', 'error');
       });
   }
-  
+
   function triggerRetrain() {
     fetch(`${API_BASE_URL}/api/retrain`, {
       method: 'POST'
@@ -238,10 +272,9 @@ document.addEventListener('DOMContentLoaded', function() {
         showToast(error.message || 'Error starting retraining', 'error');
       });
   }
-  
+
   function downloadSampleCSV() {
-    // Fetch the sample CSV file from the server
-    fetch('sample_data/ats_match_sample.csv')
+    fetch('sample_data/resume_data.csv')
       .then(response => {
         if (!response.ok) {
           throw new Error('Failed to download sample CSV');
@@ -252,7 +285,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'ats_match_sample.csv';
+        a.download = 'resume_data.csv';
         document.body.appendChild(a);
         a.click();
         
@@ -267,9 +300,12 @@ document.addEventListener('DOMContentLoaded', function() {
         showToast('Error downloading sample file', 'error');
       });
   }
-  
+
+  // =====================
+  // Utility Functions
+  // =====================
+
   function updateTrainingSteps(activeStep) {
-    // Reset all steps
     stepsElements.forEach((step, index) => {
       step.classList.remove('active', 'completed');
       
@@ -284,27 +320,22 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
-  
-  // Utility functions
+
   function formatFileSize(bytes) {
     if (bytes < 1024) return bytes + ' bytes';
     else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
     else return (bytes / 1048576).toFixed(1) + ' MB';
   }
-  
+
   function formatDate(dateString) {
     try {
-      const date = new Date(dateString);
-      return date.toLocaleString();
+      return new Date(dateString).toLocaleString();
     } catch (e) {
-      console.error('Error formatting date:', e);
-      return dateString; // Return the raw string if formatting fails
+      return dateString;
     }
   }
-  
+
   function showToast(message, type = 'info') {
-    console.log(`Toast: ${type} - ${message}`);
-    
     // Create toast container if it doesn't exist
     let toastContainer = document.querySelector('.toast-container');
     if (!toastContainer) {
@@ -321,11 +352,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add to container
     toastContainer.appendChild(toast);
     
-    // Animate and remove after delay
+    // Animate in
     setTimeout(() => {
       toast.classList.add('show');
     }, 10);
     
+    // Remove after delay
     setTimeout(() => {
       toast.classList.remove('show');
       setTimeout(() => {

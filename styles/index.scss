@@ -742,6 +742,7 @@ a{
     .download{
       display: flex;
       justify-content: space-between;
+      
 
       button{
         background: #060644;
@@ -751,6 +752,7 @@ a{
         font-weight: 700;
         color: white;
         border: none;
+        cursor: pointer;
       }
     }
   }
@@ -770,6 +772,7 @@ a{
     min-width: 400px;
     margin-left: auto; /* This centers the button horizontally */
     margin-right: auto;
+    cursor: pointer;
     
   }
 }

@@ -84,7 +84,7 @@
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-.modal-content {
+.modal-contents {
   background-color: #fefefe;
   margin: 15% auto;
   padding: 30px;
@@ -92,6 +92,12 @@
   width: 400px;
   max-width: 90%;
   text-align: center;
+}
+.modal-contents h3 {
+  padding-top: 10px;
+}
+.modal-contents p {
+  padding: 10px;
 }
 
 .loader {
@@ -111,4 +117,31 @@
   100% {
     transform: rotate(360deg);
   }
+}
+.retrain-btn:not([disabled]) {
+  background-color: #6a6d6b !important;
+  cursor: pointer;
+}
+
+/* Add this new class for the active/orange state */
+/* Update your existing button styles */
+.retrain-btn {
+  /* Your existing button styles */
+  transition: background-color 0.3s ease; /* Smooth color transition */
+}
+
+.retrain-btn[disabled] {
+  background-color: #b0bec5 !important;
+  cursor: not-allowed;
+}
+
+.retrain-btn.file-selected {
+  background-color: #f04a00 !important; /* Orange color */
+  cursor: pointer;
+}
+
+/* Keep your existing drop area style */
+.resume-dotted.file-selected {
+  background-color: #e8f5e9;
+  border-color: #4caf50;
 }/*# sourceMappingURL=retrain.css.map */

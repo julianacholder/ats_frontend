@@ -714,6 +714,7 @@ a {
   font-weight: 700;
   color: white;
   border: none;
+  cursor: pointer;
 }
 .resume-job .retrain-btn {
   margin-top: 20px;
@@ -731,6 +732,7 @@ a {
   min-width: 400px;
   margin-left: auto; /* This centers the button horizontally */
   margin-right: auto;
+  cursor: pointer;
 }
 
 .result-btn {

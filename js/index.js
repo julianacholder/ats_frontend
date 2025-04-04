@@ -184,7 +184,7 @@ function setupFormSubmission() {
 
     try {
       const response = await fetchWithTimeout(
-        'http://127.0.0.1:8000/api/predict_resume_file', 
+        'https://ats-match-ml-powered-resume-job-production.up.railway.app/api/predict_resume_file', 
         {
           method: 'POST',
           body: formData
