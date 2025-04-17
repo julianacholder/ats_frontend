@@ -8,15 +8,33 @@
   <link rel="stylesheet" href="styles/retrain.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="header">
     <div class="logo">
-      <a href="index.html"><img src="images/ats-Logo.png" alt="ATS Match Logo"></a>
+      <a href="index.html">
+        <img src="images/ats-Logo.png" alt="">
+      </a>
     </div>
     
+    <!-- Original contribute source section -->
     <div class="contribute-source">
+      <a href="retrain.html"><button class="contri-btn">Contribute</button></a>
+      <div class="src-button">
+        <img width="32" height="32" src="https://img.icons8.com/windows/32/github.png" alt="github"/>
+        <a href="https://github.com/julianacholder/ATS-Match-ML-Powered-Resume-Job-Matching-System"><p>Source Code</p></a>
+      </div>
+    </div>
+    
+    <!-- Chevron icon for mobile -->
+    <div class="chevron-menu" id="chevronMenu">
+      <i class="fas fa-chevron-down"></i>
+    </div>
+    
+    <!-- Mobile dropdown menu -->
+    <div class="mobile-menu" id="mobileMenu">
       <a href="retrain.html"><button class="contri-btn">Contribute</button></a>
       <div class="src-button">
         <img width="32" height="32" src="https://img.icons8.com/windows/32/github.png" alt="github"/>
@@ -29,15 +47,14 @@
     <div class="sub1">
       <a href="index.html">Home</a>
       <a href="">Learn more</a>
-      <a href="index.html#visualizations-container">Visuals</a>
+      <a href="#visualizations-container">Visuals</a>
       <a href="retrain.html">Support</a>
     </div>
-    
     <div class="sub2">
       <a href="">Contact</a>
     </div>
   </div>
-  
+
   <div class="main-content">
     <div class="content1">
       <h1>Contribute Data to <span>Retrain</span> the AI Model</h1>
@@ -80,17 +97,17 @@
             <div class="circle">1</div>
             <p><strong>Upload Data</strong></p>
           </div>
-          <div class="line"></div>
+          <div class="line liner"></div>
           <div class="step">
             <div class="circle">2</div>
             <p>Preprocessing</p>
           </div>
-          <div class="line"></div>
+          <div class="line liner"></div>
           <div class="step">
             <div class="circle">3</div>
             <p>Model Retraining</p>
           </div>
-          <div class="line"></div>
+          <div class="line liner"></div>
           <div class="step">
             <div class="circle">4</div>
             <p>Evaluation</p>
@@ -140,5 +157,6 @@
 </footer>
 
   <script src="js/retrain.js"></script>
+  <script src="js/index.js"></script>
 </body>
 </html>

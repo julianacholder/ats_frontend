@@ -46,6 +46,28 @@ a {
   text-decoration: none;
 }
 
+.mobile-menu .contri-btn {
+  background: #f04a00;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+.mobile-menu .src-button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.mobile-menu .src-button p {
+  color: #060644;
+}
+.mobile-menu .src-button a {
+  text-decoration: none;
+}
+
 .sub-header {
   display: flex;
   align-items: center;
@@ -62,6 +84,39 @@ a {
 .sub-header .sub1 {
   display: flex;
   gap: 40px;
+}
+
+/* Chevron icon for mobile menu */
+.chevron-menu {
+  display: none;
+  cursor: pointer;
+  font-size: 24px;
+}
+.chevron-menu i {
+  font-size: 20px;
+}
+
+/* Mobile dropdown menu */
+.mobile-menu {
+  display: none;
+  width: 100%;
+  height: 50%;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 60px;
+  right: 0;
+  z-index: 10;
+  padding: 15px;
+  padding-top: 30px;
+}
+
+.mobile-menu.show {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Modal Styles */
@@ -872,4 +927,204 @@ a {
   font-size: 14px;
   color: #495057;
   font-weight: 600;
+}
+
+@media (max-width: 1300px) {
+  .visualization-cards {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    gap: 1.5rem;
+    padding: 0.5rem 0;
+  }
+  .viz-card {
+    min-width: 320px;
+    max-width: 380px;
+    height: 400px;
+  }
+  .metrics-container {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+  .metrics-grid {
+    gap: 1rem;
+  }
+  .confusion-matrix img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+@media (max-width: 1050px) {
+  .viz-card {
+    min-width: 240px;
+    max-width: 300px;
+    height: 400px;
+  }
+}
+@media (max-width: 800px) {
+  .header {
+    padding-inline: 20px;
+  }
+  .sub-header {
+    padding-inline: 20px;
+  }
+  .sub-header .sub1 {
+    gap: 20px;
+  }
+  .visualization-cards {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    gap: 1.5rem;
+    padding: 0.5rem 0;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .viz-card {
+    min-width: 100%;
+    max-width: 400px;
+    height: 400px;
+  }
+  .footer {
+    padding-inline: 20px;
+    flex-direction: column;
+  }
+}
+@media (max-width: 540px) {
+  .header .contribute-source {
+    flex-direction: column-reverse;
+    gap: 10px;
+    padding-bottom: 10px;
+  }
+  .steps {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .line {
+    width: 3px;
+    height: 50px;
+  }
+}
+@media (max-width: 450px) {
+  .main-content {
+    padding-top: 90px;
+  }
+  .main-content .content1 h1 {
+    font-size: 30px;
+  }
+  .main-content .content1 p {
+    font-size: 14px;
+    padding-inline: 10px;
+  }
+  .main-content .content2 {
+    font-size: 16px;
+  }
+  .main-content .sub-header {
+    flex-direction: column;
+  }
+  .main-content .sub-header .sub1 {
+    padding-bottom: 10px;
+  }
+  .main-content .resume-job {
+    padding-inline: 15px;
+  }
+  .steps {
+    margin-top: 35px;
+  }
+  .step-container h2 {
+    font-size: 25px;
+  }
+  .section-title {
+    font-size: 1.5rem;
+  }
+  .metric-value {
+    font-size: 2rem;
+  }
+}
+@media (max-width: 450px) {
+  .header {
+    flex-direction: row;
+    padding-inline: 10px;
+    align-items: center;
+  }
+  .header .contribute-source {
+    display: none;
+  }
+  .chevron-menu {
+    display: block;
+  }
+  .mobile-menu .contri-btn {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  .mobile-menu .src-button {
+    margin-bottom: 10px;
+  }
+  .sub-header {
+    flex-direction: column;
+    padding-inline: 20px;
+  }
+  .sub-header .sub1 {
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  .sub-header .sub2 {
+    margin-top: 5px;
+  }
+  .logo {
+    text-align: left;
+  }
+  .logo img {
+    max-width: 80%;
+  }
+}
+@media (max-width: 1500px) {
+  .inline {
+    padding-inline: 150px;
+  }
+}
+@media (max-width: 950px) {
+  .inline {
+    padding-inline: 100px;
+  }
+}
+@media (max-width: 700px) {
+  .inline {
+    padding-inline: 50px;
+  }
+}
+@media (max-width: 630px) {
+  .inline {
+    padding-inline: 30px;
+  }
+  .resume-job .retrain-btn {
+    max-width: 100%;
+    min-width: 100%;
+  }
+  .resume-job .upload-resume .download button {
+    max-width: 300px;
+    min-width: 200px;
+  }
+  .stepss {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .liner {
+    width: 3px;
+    height: 50px;
+  }
+}
+@media (max-width: 550px) {
+  .inline {
+    padding-inline: 10px;
+  }
+  .upload-resume .download {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding-bottom: 10px;
+  }
+  .upload-resume .download button {
+    width: 100%;
+  }
 }/*# sourceMappingURL=index.css.map */

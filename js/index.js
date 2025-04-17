@@ -1,5 +1,38 @@
 // Main JavaScript file for ATS-Match
 
+// JavaScript to toggle the mobile menu
+document.addEventListener('DOMContentLoaded', function() {
+  const chevronMenu = document.getElementById('chevronMenu');
+  const mobileMenu = document.getElementById('mobileMenu');
+  
+  // Toggle mobile menu when chevron is clicked
+  chevronMenu.addEventListener('click', function() {
+    mobileMenu.classList.toggle('show');
+    
+    // Toggle chevron direction - optional
+    const chevronIcon = chevronMenu.querySelector('i');
+    if (mobileMenu.classList.contains('show')) {
+      chevronIcon.classList.remove('fa-chevron-down');
+      chevronIcon.classList.add('fa-chevron-up');
+    } else {
+      chevronIcon.classList.remove('fa-chevron-up');
+      chevronIcon.classList.add('fa-chevron-down');
+    }
+  });
+  
+  // Close menu when clicking outside
+  document.addEventListener('click', function(event) {
+    if (!chevronMenu.contains(event.target) && !mobileMenu.contains(event.target)) {
+      mobileMenu.classList.remove('show');
+      
+      // Reset chevron direction
+      const chevronIcon = chevronMenu.querySelector('i');
+      chevronIcon.classList.remove('fa-chevron-up');
+      chevronIcon.classList.add('fa-chevron-down');
+    }
+  });
+});
+
 // ==================== UI COMPONENTS ====================
 function toggleExpand(card) {
   console.log("Card clicked!");
