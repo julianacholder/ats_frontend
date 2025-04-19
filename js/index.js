@@ -222,7 +222,7 @@ function setupFormSubmission() {
           method: 'POST',
           body: formData
         },
-        30000 // 30 second timeout
+        180000 // 30 second timeout
       );
 
       if (!response.ok) {
