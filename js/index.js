@@ -349,10 +349,14 @@ function closeModal() {
   setTimeout(() => {
     modal.classList.add("hidden");
   }, 300);
+  console.log("Closing modal...");
 }
 
 // Add event listeners
-document.querySelector(".close-button").addEventListener("click", closeModal);
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelector(".close-button").addEventListener("click", closeModal);
+});
+
 
 // Close modal when clicking outside the content
 document.getElementById("result-modal").addEventListener("click", function(event) {
