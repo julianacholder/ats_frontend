@@ -383,3 +383,22 @@ document.addEventListener('DOMContentLoaded', function() {
   
   console.log("Frontend initialized successfully");
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const textarea = document.getElementById("job-description");
+  const wordCountDisplay = document.getElementById("word-count");
+  const maxWords = 250;
+
+  textarea.addEventListener("input", () => {
+    let words = textarea.value.trim().split(/\s+/);
+    let wordCount = words.filter(word => word !== "").length;
+
+    if (wordCount > maxWords) {
+      words = words.slice(0, maxWords);
+      textarea.value = words.join(" ");
+      wordCount = maxWords;
+    }
+
+    wordCountDisplay.textContent = `${wordCount} / ${maxWords} words`;
+  });
+});
