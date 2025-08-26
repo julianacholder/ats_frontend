@@ -1,5 +1,5 @@
 // Constants
-const API_BASE_URL = 'https://ats-match-ml-powered-resume-job-production.up.railway.app';
+const API_BASE_URL = 'https://ats-match-ml-powered-resume-job-matching.onrender.com';
 const RETRAIN_STATUS_INTERVAL = 5000; // Check status every 5 seconds
 
 // Main function when DOM loads
